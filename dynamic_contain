@@ -63,7 +63,7 @@ public:
 				con[j] = con_old[j];
 			}
 			con[size - 1] = *_obj;
-			delete con_old;       //ERRRRRRRRRRRRRRRRRRRROR
+			delete[] con_old;      
 			con_old = nullptr;
 		}
 	}
