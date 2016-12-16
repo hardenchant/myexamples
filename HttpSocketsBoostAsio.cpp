@@ -62,7 +62,7 @@ int main()
 	//всё хорошо переводит 174 = AE
 
 	ba::write(s, ba::buffer(stringHexLength.data(), stringHexLength.length())); //пишем размер в хексе
-	ba::write(s, ba::buffer("\r\n", 4));	//управляющая последовательность
+	ba::write(s, ba::buffer("\r\n", 2));	//управляющая последовательность
 	ba::write(s, ba::buffer(serStruct.data(), serStruct.size())); //serialized data
 
 
@@ -73,7 +73,8 @@ int main()
 	cout << "bytes: " << t << endl;	//смотрим сколько записалось
 
 	string response;
-	istr >> response;
+	istream istr2(&strb);
+	istr2 >> response;
 	cout << response << endl; //пусто, сервер должен был ответить hex(length(responseMessage))
 	
 
