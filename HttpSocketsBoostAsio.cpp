@@ -19,23 +19,23 @@ int main()
 	ba::basic_stream_socket<ba::ip::tcp> s(is);
 	s.connect(ep);
 
-	std::string str;	//http запрос на смену протокола
+	std::string str;	//http Р·Р°РїСЂРѕСЃ РЅР° СЃРјРµРЅСѓ РїСЂРѕС‚РѕРєРѕР»Р°
 	str = "GET /asr_partial HTTP/1.1\r\nUser-Agent: KeepAliveClient\r\nHost: asr.yandex.net:80\r\nUpgrade: dictation\r\n\r\n";
 	
-	ba::write(s, ba::buffer(str.data(), str.length()));	//отправляем
+	ba::write(s, ba::buffer(str.data(), str.length()));	//РѕС‚РїСЂР°РІР»СЏРµРј
 
 	ba::streambuf strb;
-	ba::read_until(s, strb, "\r\n\r\n");	//считываем ответ
+	ba::read_until(s, strb, "\r\n\r\n");	//СЃС‡РёС‚С‹РІР°РµРј РѕС‚РІРµС‚
 
 	istream istr(&strb);
 
 	str.clear();
-	while (istr) {			//выводим ответ, вроде бы всё нормально 101 Switch Protocols
+	while (istr) {			//РІС‹РІРѕРґРёРј РѕС‚РІРµС‚, РІСЂРѕРґРµ Р±С‹ РІСЃС‘ РЅРѕСЂРјР°Р»СЊРЅРѕ 101 Switch Protocols
 	getline(istr, str);
 	cout << str << endl; //server protocol is changed
 	}
 
-	//задаем структуру
+	//Р·Р°РґР°РµРј СЃС‚СЂСѓРєС‚СѓСЂСѓ
 	//----------------------------------------------------------------------
 	ConnectionRequest cr;
 	cr.default_instance();
@@ -58,26 +58,26 @@ int main()
 	itoa(serStruct.size(), hexLength, 16);
 	string stringHexLength(hexLength);
 
-	cout << serStruct.size() << "  =>  " << stringHexLength << endl; //смотрим как перевелось в hex
-	//всё хорошо переводит 174 = AE
+	cout << serStruct.size() << "  =>  " << stringHexLength << endl; //СЃРјРѕС‚СЂРёРј РєР°Рє РїРµСЂРµРІРµР»РѕСЃСЊ РІ hex
+	//РІСЃС‘ С…РѕСЂРѕС€Рѕ РїРµСЂРµРІРѕРґРёС‚ 174 = AE
 
-	ba::write(s, ba::buffer(stringHexLength.data(), stringHexLength.length())); //пишем размер в хексе
-	ba::write(s, ba::buffer("\r\n", 4));	//управляющая последовательность
+	ba::write(s, ba::buffer(stringHexLength.data(), stringHexLength.length())); //РїРёС€РµРј СЂР°Р·РјРµСЂ РІ С…РµРєСЃРµ
+	ba::write(s, ba::buffer("\r\n", 4));	//СѓРїСЂР°РІР»СЏСЋС‰Р°СЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ
 	ba::write(s, ba::buffer(serStruct.data(), serStruct.size())); //serialized data
 
 
 	boost::system::error_code err;
 
-	auto t = ba::read_until(s, strb, "\r\n", err);		//!!!здесь пытаемся читать размер ответа
-	cout << "Errors: " << err << endl;	//смотрим нет ли ошибок
-	cout << "bytes: " << t << endl;	//смотрим сколько записалось
+	auto t = ba::read_until(s, strb, "\r\n", err);		//!!!Р·РґРµСЃСЊ РїС‹С‚Р°РµРјСЃСЏ С‡РёС‚Р°С‚СЊ СЂР°Р·РјРµСЂ РѕС‚РІРµС‚Р°
+	cout << "Errors: " << err << endl;	//СЃРјРѕС‚СЂРёРј РЅРµС‚ Р»Рё РѕС€РёР±РѕРє
+	cout << "bytes: " << t << endl;	//СЃРјРѕС‚СЂРёРј СЃРєРѕР»СЊРєРѕ Р·Р°РїРёСЃР°Р»РѕСЃСЊ
 
 	string response;
 	istr >> response;
-	cout << response << endl; //пусто, сервер должен был ответить hex(length(responseMessage))
+	cout << response << endl; //РїСѓСЃС‚Рѕ, СЃРµСЂРІРµСЂ РґРѕР»Р¶РµРЅ Р±С‹Р» РѕС‚РІРµС‚РёС‚СЊ hex(length(responseMessage))
 	
 
-	/*while (!err) {		//цикл будет бесконечным, 
+	/*while (!err) {		//С†РёРєР» Р±СѓРґРµС‚ Р±РµСЃРєРѕРЅРµС‡РЅС‹Рј
 		auto t = ba::read_until(s, strb, "\r\n", err);
 		cout << "bytes: " << t << endl;
 	}*/
