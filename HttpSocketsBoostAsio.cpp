@@ -34,7 +34,7 @@ int main()
 	cout << str << endl; //server protocol is changed
 	}
 
-	//задаем структуру
+
 	//----------------------------------------------------------------------
 	ConnectionRequest cr;
 	cr.default_instance();
