@@ -41,8 +41,8 @@ int main()
 	
 	cr.set_speechkitversion("");
 	cr.set_servicename("asr_dictation");
-	cr.set_uuid("01ae13cb7d496daa1e644628b58fb536");
-	cr.set_apikey("2afd54fe-46b0-4a8c-bc51-3225594f96a2");
+	cr.set_uuid("-----------------");
+	cr.set_apikey("------------------");
 	cr.set_applicationname("MyRecognizer2k16");
 	cr.set_device("Windows 10 PC");
 	cr.set_coords("0,0");
